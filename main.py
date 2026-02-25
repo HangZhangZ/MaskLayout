@@ -71,7 +71,7 @@ def launch_multi_main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data",         type=str,   default="maskplan", help="dataset on which dataset to train")
+    parser.add_argument("--data",         type=str,   default="MaskLayout", help="dataset on which dataset to train")
     parser.add_argument("--composed-img",  type=str,   default="Data/img/composed",help="folder containing the composed img")
     parser.add_argument("--split",        type=int,   default=32*2700,    help="split for train and val")
     parser.add_argument("--vqgan-folder", type=str,   default="",         help="folder of the pretrained VQGAN")
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     parser.add_argument("--writer-log",   type=str,   default="",         help="folder where to store the logs")
     parser.add_argument("--sched_mode",   type=str,   default="arccos",   help="scheduler mode whent sampling")
     parser.add_argument("--model_mode",   type=str,   default="hybrid",   help="img,vec,hybrid(img+vec)")
-    parser.add_argument("--mask_mode",   type=int,    default=0,          help="see details in MaskPLAN_PP.py")
+    parser.add_argument("--mask_mode",   type=int,    default=0,          help="see details in MaskLayout.py")
     parser.add_argument("--sqe_len",      type=int,   default=14,         help="sqe len")
     parser.add_argument("--codebook_shape",type=int,  default=16,         help="codebook shape")
     parser.add_argument("--codebook_size",type=int,   default=32,         help="codebook_size")

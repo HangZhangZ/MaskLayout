@@ -25,14 +25,14 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 # from Network.VQVAE import VectorQuantizer
 
 from Trainer.trainer import Trainer
-from Network.MaskPLAN_PP import *
+from Network.MaskLAYOUT import *
 from Trainer.decode_function import *
 from Trainer.Custom_Loss import *
 
 import numpy as np
 import torch
 
-class MaskGIT(Trainer):
+class MaskLayout(Trainer):
 
     def __init__(self, args):
         """ Initialization of the model (VQGAN and Masked Transformer), optimizer, criterion, etc."""
