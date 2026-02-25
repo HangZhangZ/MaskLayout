@@ -28,7 +28,7 @@ from Network.VQVAE.utils import *
 # from Network.vqgan import VQModel
 
 from Trainer.trainer import Trainer
-from Network.MaskPLAN_PP import *
+from Network.MaskLAYOUT import *
 from Trainer.decode_function import *
 from Trainer.Custom_Loss import *
 

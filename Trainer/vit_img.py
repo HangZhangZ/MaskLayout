@@ -24,7 +24,7 @@ tf.config.experimental.set_memory_growth(gpu_list[0], True)
 from Network.VQVAE import VectorQuantizer
 
 from Trainer.trainer import Trainer
-from Network.MaskPLAN_PP import *
+from Network.MaskLAYOUT import *
 from Trainer.decode_function import *
 
 import numpy as np
