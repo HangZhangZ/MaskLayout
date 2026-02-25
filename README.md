@@ -33,9 +33,9 @@ Availability notes:
 
 - We offer complete vector modality data.
 - We offer complete codebook data.
-- We offer 1000 samples of image data.
-- Complete image data is available upon reasonable request.
-- We offer pretrained VQ-VAE weights (so step 3 can be skipped if you use the provided weights).
+- We offer complete samples of [image data](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing).
+- MaskLayout checkpoints are available upon reasonable request.
+- We offer pretrained VQ-VAE weights.
 
 ## Repository layout
 
@@ -43,7 +43,6 @@ Availability notes:
 - `Trainer/`: training loops for `img`, `vec`, and `hybrid` modes plus losses/decoders.
 - `Network/MaskLAYOUT.py`: main transformer architectures (image, vector, hybrid, graph-aware hybrid).
 - `Network/VQVAE/`: PyTorch VQ-VAE implementation and mask utility functions used by hybrid training.
-- `Network/vqvae.py`: TensorFlow/Keras VQ-VAE implementation (legacy / notebook-oriented).
 - `Data_Process/`: SwissDwelling geometry parsing and dual-modality data construction.
 - `Extract_SwissD_Data.ipynb`: raw geometry -> images + vector sequences.
 - `VQVAE_Process_Data_55_32.ipynb`: TensorFlow VQ-VAE pretraining/data-processing notebook (used to pretrain the VQ-VAE and generate attribute codebooks).
@@ -73,10 +72,22 @@ Shapes below are from the current checked-in files:
   - same as above except `R`: `(127932, 14, 20, 2, 7)`
 - `Data/valid_num.npy`
   - `(127932,)` `float64`
+- `Data/sqe/swissD_Dual_Modal.npz`
+  - `T`: `(42644, 16, 10)` `uint8`
+  - `L`: `(42644, 16, 2, 7)` `uint8`
+  - `A`: `(42644, 16, 14)` `uint8`
+  - `S`: `(42644, 16, 6)` `uint8`
+  - `R`: `(42644, 16, 20, 2, 7)` `uint8`
+  - `W`: `(42644, 16, 2, 7)` `uint8`
+- `Data/sqe/new_R_10.npy`
+  - `(42644, 16, 10, 2, 7)` `uint8`
+- `Data/img_batch_3.npy` `uint8`
+  - `(127932, 16)` `int32`
 
 Notes:
 
 - `127932 = 42644 * 3`; several loaders explicitly triple the site conditioning arrays with `np.concatenate((s, s, s), axis=0)` to match this.
+- `42644` is the base plan count used by the checked-in `Data/sqe/*` and codebook artifacts.
 - Sequence length is effectively `14` (`--sqe_len` default).
 - Attribute channels are `6` (`T, S, L, A, R, W`).
 

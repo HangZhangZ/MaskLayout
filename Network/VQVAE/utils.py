@@ -125,20 +125,6 @@ def reconstruct(data,model,device):
     x_recon = model.decoder(z_q)
     return x,x_recon, z_q,e_indices
 
-# def create_All_Mask(mask_map,device):
-#     batch_size, attri_count, sqe_len = mask_map.shape
-#     mask_map_flat = mask_map.view(batch_size,-1)
-#     M = torch.ones(batch_size, attri_count * sqe_len + 1, attri_count * sqe_len + 1).to(device)
-    
-#     for batch_index in range(batch_size):
-#         for i,j in enumerate(mask_map_flat[batch_index]):
-#             if j == 0: 
-#                 M[batch_index, i, :-1] = mask_map_flat[batch_index].detach().clone()
-#                 M[batch_index, i, -1] = 0
-#         M[batch_index,-1, :-1] = mask_map_flat[batch_index].detach().clone()
-#         M[batch_index,-1, -1] = 0
-
-#     return M
 
 def create_All_Mask(mask_map, device):
     batch_size, attri_count, sqe_len = mask_map.shape
@@ -163,26 +149,6 @@ def create_All_Mask(mask_map, device):
     M[:, -1, -1] = 0
 
     return M
-
-# def create_Room_Mask(mask_map,device):
-#     batch_size, attri_count, sqe_len = mask_map.shape
-#     M = torch.ones(batch_size, attri_count * sqe_len + 1, attri_count * sqe_len + 1).to(device)
-    
-#     for batch_index in range(batch_size):
-#         for i in range(sqe_len):
-#             temp = []
-#             for j in range(attri_count):
-#                 if mask_map[batch_index,j,i] == 0: temp.append(j)
-#             for v1 in temp: 
-#                 for v2 in temp:
-#                     M[batch_index, v1*sqe_len + i, v2*sqe_len + i] = 0
-#                     M[batch_index, v2*sqe_len + i, v1*sqe_len + i] = 0
-#                     M[batch_index, v1*sqe_len + i, -1] = 0
-#                     M[batch_index, v2*sqe_len + i, -1] = 0
-#                     M[batch_index, -1, v1*sqe_len + i] = 0
-#                     M[batch_index, -1, v2*sqe_len + i] = 0
-
-#     return M
 
 def create_Room_Mask(mask_map, device):
 
@@ -231,19 +197,6 @@ def create_Room_Mask(mask_map, device):
 
     return M
 
-# def create_Attr_Mask(mask_map,device):
-#     batch_size, attri_count, sqe_len = mask_map.shape
-#     M = torch.ones(batch_size, attri_count * sqe_len + 1, attri_count * sqe_len + 1).to(device)
-    
-#     for batch_index in range(batch_size):
-#         for i in range(attri_count):
-#             for j in range(sqe_len):
-#                 if mask_map[batch_index,i,j] == 0:
-#                     M[batch_index, i*sqe_len+j, i*sqe_len:(i+1)*sqe_len] = mask_map[batch_index,i]
-#                     M[batch_index, i*sqe_len+j, -1] = 0
-#             M[batch_index, -1, i*sqe_len:(i+1)*sqe_len] = mask_map[batch_index,i]
-
-#     return M
 
 def create_Attr_Mask(mask_map, device):
     batch_size, attri_count, sqe_len = mask_map.shape
@@ -280,31 +233,6 @@ def create_Attr_Mask(mask_map, device):
     M[:, -1, :attri_count * sqe_len] = mask_map.reshape(batch_size, attri_count * sqe_len)
     
     return M
-
-# def create_Graph_Mask(A,mask_map,device):
-#     batch_size, attri_count, sqe_len = mask_map.shape
-#     M = torch.ones(batch_size, attri_count * sqe_len + 1, attri_count * sqe_len + 1).to(device)
-
-#     for batch_index in range(batch_size):
-#         for i in range(sqe_len):
-#             if not A[batch_index, i].equal(torch.ones(sqe_len).to(device)):
-#                 for j in range(i,sqe_len):
-#                     if A[batch_index, i, j] == 1:
-#                         temp = []
-#                         for idx,m in enumerate(mask_map[batch_index,:,j]):
-#                             if m == 0: temp.append([idx,j])
-#                         for idx,n in enumerate(mask_map[batch_index,:,i]):
-#                             if n == 0: temp.append([idx,i])
-#                         for v1,r1 in temp: 
-#                             for v2,r2 in temp:
-#                                 M[batch_index, v1*sqe_len + r1, v2*sqe_len + r2] = 0
-#                                 M[batch_index, v2*sqe_len + r2, v1*sqe_len + r1] = 0
-#                                 M[batch_index, v1*sqe_len + r1, -1] = 0
-#                                 M[batch_index, v2*sqe_len + r2, -1] = 0
-#                                 M[batch_index, -1, v1*sqe_len + r1] = 0
-#                                 M[batch_index, -1, v2*sqe_len + r2] = 0
-
-#     return M
 
 def create_Graph_Mask(A, mask_map, device):
 
