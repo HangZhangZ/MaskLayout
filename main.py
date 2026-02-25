@@ -95,6 +95,7 @@ if __name__ == "__main__":
     parser.add_argument('--img-size',     type=int,   default=256,        help="image size")
     parser.add_argument("--bsize",        type=int,   default=64,        help="batch size")
     parser.add_argument("--tsize",        type=int,   default=10,        help="test batch size")
+    parser.add_argument("--mask_rate",    type=float, default=0.5,       help="probability of using predefined partial input in img/vec modes")
     parser.add_argument("--mask_value",   type=int,   default=31,       help="number of epoch")
     parser.add_argument("--lr_decay",     type=int,   default=30,       help="number of epoch to reduce lr")
     parser.add_argument("--lr",           type=float, default=1e-4,       help="learning rate to train the transformer")

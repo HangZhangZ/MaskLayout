@@ -1,4 +1,3 @@
-# Trainer for MaskGIT
 import os
 import random
 import time
@@ -440,7 +439,7 @@ class MaskLayout(Trainer):
 
     def sample(self, nb_sample=10, sm_temp=1, w=0,
                randomize="linear", r_temp=4.5, sched_mode="arccos", step=10):
-        """ Generate sample with the MaskGIT model
+        """ Generate sample with the MaskLayout model
            :param
             init_code   -> torch.LongTensor: nb_sample x 16 x 16, the starting initialization code
             nb_sample   -> int:              the number of image to generated
@@ -530,3 +529,4 @@ class MaskLayout(Trainer):
 
         self.vit.train()
         return l_codes, l_mask#, x
+
