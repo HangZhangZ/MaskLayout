@@ -6,19 +6,7 @@ MaskLayout is a research-code snapshot for masked floorplan generation/layout co
 - vector-token only (`vec`)
 - hybrid image+vector with graph-aware masking (`hybrid`)
 
-The repository includes model code, preprocessing utilities, notebooks, and several preprocessed `.npy/.npz` training artifacts. It includes all raw data, but the codes are under cleaned up.
-
-## Dataset and Framework Overview
-
-High-level pipeline:
-
-1. Parse SwissDwelling-style geometry records into room polygons, adjacency, windows, and boundary/site context.
-2. Convert each plan into two aligned representations:
-   - vector attributes (`T/S/L/A/R/W`)
-   - per-attribute RGBA images (`T/S/L/A/R/W`) and composed visualizations
-3. Tokenize attribute images with a VQ-VAE into codebook indices.
-4. Train masked transformers to reconstruct masked tokens/attributes.
-5. In `hybrid` mode, jointly predict image tokens + vector attributes with graph/attribute/room attention masks.
+The repository includes all raw data, while the codes are under cleaned up.
 
 ## Dataset Figures
 
@@ -29,6 +17,32 @@ High-level pipeline:
 **Comparison of our dataset with [RPLAN](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html) and [MSD](https://github.com/caspervanengelenburg/msd)**
 
 ![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
+
+## Representation conventions
+
+### Vector modality (`T/S/L/A/R/W`)
+
+Used in `vec` and `hybrid` training:
+
+- `T`: room type bits / one-hot style representation (training tensor shape uses width `8`)
+- `S`: size bits (`6` bits)
+- `L`: room location (`2 x 7` bits for x/y)
+- `A`: adjacency matrix row (`14` length)
+- `R`: room polygon corners (`10` or `20` corners depending on dataset variant) with `(x, y)` bit pairs
+- `W`: window location (`2 x 7` bits)
+
+### Raw Image modality
+
+- Download [here](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing). 
+
+### Processed Image-token
+
+Each attribute image is VQ-tokenized into a sequence of discrete code indices.
+
+- `img_mask_complete_3.npz` stores complete token sequences per attribute.
+- `img_mask_partial_3.npz` stores partial/masked variants.
+- `codebook_size` default is `32`.
+- `codebook_shape` default in `main.py` is `16`.
 
 ## Included data artifacts
 
@@ -72,30 +86,6 @@ Notes:
 - `42644` is the base plan count used by the checked-in `Data/sqe/*` and codebook artifacts.
 - Sequence length is effectively `14` (`--sqe_len` default).
 - Attribute channels are `6` (`T, S, L, A, R, W`).
-
-## Representation conventions
-
-### Vector modality (`T/S/L/A/R/W`)
-
-Used in `vec` and `hybrid` training:
-
-- `T`: room type bits / one-hot style representation (training tensor shape uses width `8`)
-- `S`: size bits (`6` bits)
-- `L`: room location (`2 x 7` bits for x/y)
-- `A`: adjacency matrix row (`14` length)
-- `R`: room polygon corners (`10` or `20` corners depending on dataset variant) with `(x, y)` bit pairs
-- `W`: window location (`2 x 7` bits)
-
-Raw notebook preprocessing starts from larger dimensions (e.g. `T_dim=10`, `R_num=20`) and later downstream training files use reduced/processed variants.
-
-### Image-token modality
-
-Each attribute image is VQ-tokenized into a sequence of discrete code indices.
-
-- `img_mask_complete_3.npz` stores complete token sequences per attribute.
-- `img_mask_partial_3.npz` stores partial/masked variants.
-- `codebook_size` default is `32`.
-- `codebook_shape` default in `main.py` is `16`.
 
 ## Recommended steps (data -> VQ-VAE -> MaskLayout)
 
