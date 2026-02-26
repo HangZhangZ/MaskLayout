@@ -30,34 +30,6 @@ High-level pipeline:
 
 ![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
 
-## Recommended steps (data -> VQ-VAE -> MaskLayout)
-
-Use this order for end-to-end reproduction/training:
-
-1. Download `geometries.csv` from the Swiss Dwelling dataset page on Zenodo: [SwissDwelling (Zenodo)](https://zenodo.org/records/7788422).
-2. Run `Extract_SwissD_Data.ipynb` to generate raw dual-modality training assets (vector modality + image assets).
-3. Run `VQVAE_Process_Data_55_32.ipynb` to pretrain the VQ-VAE and generate codebook data.
-4. Run `main.py` to train MaskLayout.
-
-Availability notes:
-
-- We offer complete vector modality data.
-- We offer complete codebook data.
-- We offer complete samples of [image data](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing).
-- MaskLayout checkpoints are available upon reasonable request.
-- We offer pretrained VQ-VAE weights.
-
-## Repository layout
-
-- `main.py`: CLI entrypoint for train / eval / debug sampling.
-- `Trainer/`: training loops for `img`, `vec`, and `hybrid` modes plus losses/decoders.
-- `Network/MaskLAYOUT.py`: main transformer architectures (image, vector, hybrid, graph-aware hybrid).
-- `Network/VQVAE/`: PyTorch VQ-VAE implementation and mask utility functions used by hybrid training.
-- `Data_Process/`: SwissDwelling geometry parsing and dual-modality data construction.
-- `Extract_SwissD_Data.ipynb`: raw geometry -> images + vector sequences.
-- `VQVAE_Process_Data_55_32.ipynb`: TensorFlow VQ-VAE pretraining/data-processing notebook (used to pretrain the VQ-VAE and generate attribute codebooks).
-- `Data/`: precomputed tokenized datasets included in this snapshot.
-
 ## Included data artifacts
 
 Shapes below are from the current checked-in files:
@@ -124,6 +96,34 @@ Each attribute image is VQ-tokenized into a sequence of discrete code indices.
 - `img_mask_partial_3.npz` stores partial/masked variants.
 - `codebook_size` default is `32`.
 - `codebook_shape` default in `main.py` is `16`.
+
+## Recommended steps (data -> VQ-VAE -> MaskLayout)
+
+Use this order for end-to-end reproduction/training:
+
+1. Download `geometries.csv` from the Swiss Dwelling dataset page on Zenodo: [SwissDwelling (Zenodo)](https://zenodo.org/records/7788422).
+2. Run `Extract_SwissD_Data.ipynb` to generate raw dual-modality training assets (vector modality + image assets).
+3. Run `VQVAE_Process_Data_55_32.ipynb` to pretrain the VQ-VAE and generate codebook data.
+4. Run `main.py` to train MaskLayout.
+
+Availability notes:
+
+- We offer complete vector modality data.
+- We offer complete codebook data.
+- We offer complete samples of [image data](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing).
+- MaskLayout checkpoints are available upon reasonable request.
+- We offer pretrained VQ-VAE weights.
+
+## Repository layout
+
+- `main.py`: CLI entrypoint for train / eval / debug sampling.
+- `Trainer/`: training loops for `img`, `vec`, and `hybrid` modes plus losses/decoders.
+- `Network/MaskLAYOUT.py`: main transformer architectures (image, vector, hybrid, graph-aware hybrid).
+- `Network/VQVAE/`: PyTorch VQ-VAE implementation and mask utility functions used by hybrid training.
+- `Data_Process/`: SwissDwelling geometry parsing and dual-modality data construction.
+- `Extract_SwissD_Data.ipynb`: raw geometry -> images + vector sequences.
+- `VQVAE_Process_Data_55_32.ipynb`: TensorFlow VQ-VAE pretraining/data-processing notebook (used to pretrain the VQ-VAE and generate attribute codebooks).
+- `Data/`: precomputed tokenized datasets included in this snapshot.
 
 ## Model architecture summary
 
