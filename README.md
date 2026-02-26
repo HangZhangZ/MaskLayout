@@ -6,7 +6,7 @@ MaskLayout is a research-code snapshot for masked floorplan generation/layout co
 - vector-token only (`vec`)
 - hybrid image+vector with graph-aware masking (`hybrid`)
 
-The repository includes model code, preprocessing utilities, notebooks, and several preprocessed `.npy/.npz` training artifacts. It does not currently include all raw data, and codes under cleaned up.
+The repository includes model code, preprocessing utilities, notebooks, and several preprocessed `.npy/.npz` training artifacts. It includes all raw data, but the codes are under cleaned up.
 
 ## What the project does
 
