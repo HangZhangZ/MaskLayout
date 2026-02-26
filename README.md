@@ -22,11 +22,11 @@ High-level pipeline:
 
 ## Dataset Figures
 
-**MaskLayout_fig2: Overview of the dataset**
+**Overview of the dataset**
 
 ![MaskLayout dataset overview](Figures/MaskLayout_fig2.png)
 
-**MaskLayout_fig3: Comparison of our dataset with [RPLAN](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html) and [MSD](https://github.com/caspervanengelenburg/msd)**
+**Comparison of our dataset with [RPLAN](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html) and [MSD](https://github.com/caspervanengelenburg/msd)**
 
 ![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
 
