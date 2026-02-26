@@ -8,7 +8,7 @@ MaskLayout is a research-code snapshot for masked floorplan generation/layout co
 
 The repository includes model code, preprocessing utilities, notebooks, and several preprocessed `.npy/.npz` training artifacts. It includes all raw data, but the codes are under cleaned up.
 
-## What the project does
+## Dataset and Framework Overview
 
 High-level pipeline:
 
@@ -19,6 +19,16 @@ High-level pipeline:
 3. Tokenize attribute images with a VQ-VAE into codebook indices.
 4. Train masked transformers to reconstruct masked tokens/attributes.
 5. In `hybrid` mode, jointly predict image tokens + vector attributes with graph/attribute/room attention masks.
+
+## Dataset Figures
+
+**MaskLayout_fig2: Overview of the dataset**
+
+![MaskLayout dataset overview](Figures/MaskLayout_fig2.png)
+
+**MaskLayout_fig3: Comparison of our dataset with [RPLAN](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html) and [MSD](https://github.com/caspervanengelenburg/msd)**
+
+![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
 
 ## Recommended steps (data -> VQ-VAE -> MaskLayout)
 
