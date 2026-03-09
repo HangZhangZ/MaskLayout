@@ -18,29 +18,32 @@ The repository includes all raw data, while the codes are under cleaned up.
 
 ![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
 
+**Start here: read [`Data_Process_Guide.ipynb`](Data_Process_Guide.ipynb) first.** It provides a comprehensive walkthrough of all data representations, encoding conventions, and token structures used in this project. Understanding this notebook is essential before running any training or data processing steps.
+
 ## Representation conventions
 
 ### Vector modality (`T/S/L/A/R/W`)
 
-Used in `vec` and `hybrid` training:
+Used in `vec` and `hybrid` training. Each sequence has `max_room + 2 = 16` slots: slot 0 is the start token, slots 1–14 are room slots, and slot 15 is the end token.
 
-- `T`: room type bits / one-hot style representation (training tensor shape uses width `8`)
-- `S`: size bits (`6` bits)
-- `L`: room location (`2 x 7` bits for x/y)
+- `T`: room type one-hot (`10`-dim). Indices 0–7 = 8 room types, index 8 = end token, index 9 = start token. Empty/padding rooms are all-zero vectors `[0,0,0,0,0,0,0,0,0,0]`.
+  - Room type order (0–7): LivingRoom, Bathroom, Closet, Bedroom, Kitchen, Dining, Balcony, Corridor
+- `S`: size bits (`6` bits, max value 63)
+- `L`: room location (`2 x 7` bits for x/y, max value 127). Start token = `[[1,1,1,1,1,1,1],[1,1,1,1,1,1,1]]` (decodes to `[127,127]`), end token = `[[1,1,1,1,1,1,0],[1,1,1,1,1,1,0]]` (decodes to `[126,126]`).
 - `A`: adjacency matrix row (`14` length)
 - `R`: room polygon corners (`10` or `20` corners depending on dataset variant) with `(x, y)` bit pairs
-- `W`: window location (`2 x 7` bits)
+- `W`: window location (`2 x 7` bits). Same `L_dim` encoding as `L`; start token = `[127,127]`, end token = `[126,126]`.
 
 ### Raw Image modality
 
-- Download [here](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing). 
+- Download [here](https://drive.google.com/drive/folders/1X-T7QibzJOgC6UN6m9mlo47GZJHSbf2s?usp=sharing).
 
 ### Processed Image-token
 
 Each attribute image is VQ-tokenized into a sequence of discrete code indices.
 
-- `img_mask_complete_3.npz` stores complete token sequences per attribute.
-- `img_mask_partial_3.npz` stores partial/masked variants.
+- `img_mask_complete_3.npz` stores complete token sequences per attribute. Token value `0` is a valid codebook index.
+- `img_mask_partial_3.npz` stores partial/masked variants. All 25 tokens set to value `32` indicates a fully masked room image.
 - `codebook_size` default is `32`.
 - `codebook_shape` default in `main.py` is `16`.
 
@@ -91,10 +94,11 @@ Notes:
 
 Use this order for end-to-end reproduction/training:
 
-1. Download `geometries.csv` from the Swiss Dwelling dataset page on Zenodo: [SwissDwelling (Zenodo)](https://zenodo.org/records/7788422).
-2. Run `Extract_SwissD_Data.ipynb` to generate raw dual-modality training assets (vector modality + image assets).
-3. Run `VQVAE_Process_Data_55_32.ipynb` to pretrain the VQ-VAE and generate codebook data.
-4. Run `main.py` to train MaskLayout.
+1. Read `Data_Process_Guide.ipynb` to understand the data formats and encoding conventions.
+2. Download `geometries.csv` from the Swiss Dwelling dataset page on Zenodo: [SwissDwelling (Zenodo)](https://zenodo.org/records/7788422).
+3. Run `Extract_SwissD_Data.ipynb` to generate raw dual-modality training assets (vector modality + image assets).
+4. Run `VQVAE_Process_Data_55_32.ipynb` to pretrain the VQ-VAE and generate codebook data.
+5. Run `main.py` to train MaskLayout.
 
 Availability notes:
 
@@ -244,7 +248,7 @@ Key notebook settings:
 
 - `img_res = 128`
 - `max_room = 14`
-- `T_dim = 10`, `L_dim = 7`, `S_dim = 6`, `R_num = 20`
+- `T_dim = 10` (indices 0–7 = room types, 8 = end, 9 = start), `L_dim = 7`, `S_dim = 6`, `R_num = 20`
 - `max_boundary_length = 20`
 - `num_plan = 45000`
 
