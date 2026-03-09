@@ -19,7 +19,7 @@ The repository includes all raw data, while the codes are under cleaned up.
 ![MaskLayout dataset comparison with RPLAN and MSD](Figures/MaskLayout_fig3.png)
 
 ### Start here: 
-read [`Data_Process_Guide.ipynb`](Data_Process_Guide.ipynb) first.** It provides a comprehensive walkthrough of all data representations, encoding conventions, and token structures used in this project. Understanding this notebook is essential before running any training or data processing steps.
+read [`Data_Process_Guide.ipynb`](Data_Process_Guide.ipynb) first. It provides a comprehensive walkthrough of all data representations, encoding conventions, and token structures used in this project. Understanding this notebook is essential before running any training or data processing steps.
 
 ## Representation conventions
 
