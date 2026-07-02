@@ -1,5 +1,21 @@
 # MaskLayout
 
+This paper is published in *Automation in Construction*: https://www.sciencedirect.com/science/article/pii/S0926580526003614
+
+```bibtex
+@article{zhang2026masked,
+  title   = {Masked irregular layout planning from partial input with fused modalities},
+  author  = {Zhang, Hang and Savov, Anton and Dillenburger, Benjamin},
+  journal = {Automation in Construction},
+  volume  = {190},
+  pages   = {107120},
+  year    = {2026},
+  month   = {October},
+  publisher = {Elsevier},
+  doi     = {10.1016/j.autcon.2026.107120}
+}
+```
+
 MaskLayout is a research-code snapshot for masked floorplan generation/layout completion with three modes:
 
 - image-token only (`img`)
